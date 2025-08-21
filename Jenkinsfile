@@ -4,11 +4,11 @@ pipeline {
     environment {
         // AWS and SonarQube environment variables
         AWS_REGION = 'us-east-2'
-        S3_BUCKET = 'your-s3-bucket-name'
+        S3_BUCKET = 'pythonflaskappproject'
         APP_NAME = 'FlaskApp'
         SONARQUBE_SERVER = 'SonarQube'
         SONARQUBE_TOKEN = credentials('sonar-token') // store in Jenkins credentials
-        GITHUB_REPO = 'https://github.com/your-username/flask-ci-cd-app.git'
+        GITHUB_REPO = 'https://github.com/anjupoulose03/flask_app.git'
     }
 
     stages {

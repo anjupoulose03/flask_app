@@ -9,12 +9,13 @@ pipeline {
         SONARQUBE_SERVER = 'SonarQube'
         SONARQUBE_TOKEN = credentials('sonar-token') // store in Jenkins credentials
         GITHUB_REPO = 'https://github.com/anjupoulose03/flask_app.git'
+        GITHUB_TOKEN = credentials('github-token')
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: "${GITHUB_REPO}"
+                git branch: 'main', url: "https://${GITHUB_TOKEN}@github.com/anjupoulose03/flask_app.git"
             }
         }
 

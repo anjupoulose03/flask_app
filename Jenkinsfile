@@ -50,10 +50,10 @@ pipeline {
             steps {
                 sh '''
                     aws deploy create-deployment \
-                        --application-name ${APP_NAME} \
-                        --deployment-group-name ${APP_NAME}-DG \
-                        --s3-location bucket=${S3_BUCKET},key=${APP_NAME}.zip,bundleType=zip \
-                        --region ${AWS_REGION}
+                        --application-name ${FlaskApp} \
+                        --deployment-group-name ${FlaskApp}-DG \
+                        --s3-location bucket=${pythonflaskappproject},key=${APP_NAME}.zip,bundleType=zip \
+                        --region ${us-east-2}
                 '''
             }
         }

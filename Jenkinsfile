@@ -2,35 +2,19 @@ pipeline {
     agent any
 
     environment {
-        // AWS and SonarQube environment variables
-        AWS_REGION = 'us-east-2'
-        S3_BUCKET = 'pythonflaskappproject'
-        APP_NAME = 'FlaskApp'
-        SONARQUBE_SERVER = 'SonarQube'
-        SONARQUBE_TOKEN = credentials('sonar-token') // store in Jenkins credentials
-        GITHUB_REPO = 'https://github.com/anjupoulose03/flask_app.git'
-        GITHUB_TOKEN = credentials('github-token')
+        APP_NAME    = "FlaskApp"                // CodeDeploy application name
+        DEPLOY_GRP  = "FlaskApp-DG"             // CodeDeploy deployment group name
+        S3_BUCKET   = "pythonflaskappproject"   // Your S3 bucket name
+        AWS_REGION  = "us-east-2"               // AWS region
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: "https://${GITHUB_TOKEN}@github.com/anjupoulose03/flask_app.git"
+                git branch: 'main', url: 'https://github.com/anjupoulose03/flask_app.git'
             }
         }
-        /*
-        stage('SonarQube Scan') {
-            steps {
-                script {
-                    // assuming you have SonarQube plugin installed in Jenkins
-                    withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                        sh "sonar-scanner -Dsonar.projectKey=${APP_NAME} -Dsonar.sources=."
-                    }
-                }
-            }
-        }
-        */
-        
+
         stage('Package Application') {
             steps {
                 sh '''
@@ -51,22 +35,21 @@ pipeline {
             steps {
                 sh '''
                     aws deploy create-deployment \
-                        --application-name ${FlaskApp} \
-                        --deployment-group-name ${FlaskApp}-DG \
-                        --s3-location bucket=${pythonflaskappproject},key=${APP_NAME}.zip,bundleType=zip \
-                        --region ${us-east-2}
+                        --application-name ${APP_NAME} \
+                        --deployment-group-name ${DEPLOY_GRP} \
+                        --s3-location bucket=${S3_BUCKET},key=${APP_NAME}.zip,bundleType=zip \
+                        --region ${AWS_REGION}
                 '''
             }
         }
     }
 
     post {
-        success {
-            echo "Deployment Successful!"
-        }
         failure {
             echo "Pipeline Failed!"
         }
+        success {
+            echo "Pipeline Succeeded! 🚀"
+        }
     }
 }
-

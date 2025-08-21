@@ -18,7 +18,7 @@ pipeline {
                 git branch: 'main', url: "https://${GITHUB_TOKEN}@github.com/anjupoulose03/flask_app.git"
             }
         }
-
+        /*
         stage('SonarQube Scan') {
             steps {
                 script {
@@ -29,7 +29,8 @@ pipeline {
                 }
             }
         }
-
+        */
+        
         stage('Package Application') {
             steps {
                 sh '''

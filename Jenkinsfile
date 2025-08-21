@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // AWS and SonarQube environment variables
-        AWS_REGION = 'us-east-1'
+        AWS_REGION = 'us-east-2'
         S3_BUCKET = 'your-s3-bucket-name'
         APP_NAME = 'FlaskApp'
         SONARQUBE_SERVER = 'SonarQube'

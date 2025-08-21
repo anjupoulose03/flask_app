@@ -15,14 +15,14 @@ pipeline {
             }
         }
 
-        stage('Package Application') {
+        stage('Package App') {
             steps {
                 sh '''
-                    zip -r ${APP_NAME}.zip app.py requirements.txt
+                    rm -f ${APP_NAME}.zip
+                    zip -r ${APP_NAME}.zip * .[^.]*
                 '''
             }
         }
-
         stage('Upload to S3') {
             steps {
                 sh '''

@@ -6,6 +6,8 @@ pipeline {
         DEPLOY_GRP  = "FlaskApp-DG"             // CodeDeploy deployment group name
         S3_BUCKET   = "pythonflaskappproject"   // Your S3 bucket name
         AWS_REGION  = "us-east-2"               // AWS region
+        SONARQUBE_SERVER = 'SonarQube'
+        SONARQUBE_TOKEN = credentials('sonar-token')
     }
 
     stages {
@@ -14,7 +16,15 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/anjupoulose03/flask_app.git'
             }
         }
-
+       stage('SonarQube Scan') {
+            steps {
+                script {
+                    withSonarQubeEnv("${SONARQUBE_SERVER}") {
+                        sh "sonar-scanner -Dsonar.projectKey=${APP_NAME} -Dsonar.sources=. -Dsonar.login=${SONARQUBE_TOKEN}"
+                    }
+                }
+            }
+        }
         stage('Package App') {
             steps {
                 sh '''

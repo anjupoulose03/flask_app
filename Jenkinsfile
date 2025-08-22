@@ -19,8 +19,9 @@ pipeline {
        stage('SonarQube Scan') {
             steps {
                 script {
-                    withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                        sh "sonar-scanner -Dsonar.projectKey=${APP_NAME} -Dsonar.sources=. -Dsonar.login=${SONARQUBE_TOKEN}"
+                    withSonarQubeEnv(credentialsId: 'sonar-token') {
+                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=${APP_NAME} \
+                    -Dsonar.projectKey=${APP_NAME} '''
                     }
                 }
             }

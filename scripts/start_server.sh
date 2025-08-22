@@ -1,3 +1,5 @@
 #!/bin/bash
+set -e
 cd /home/ubuntu/flask-ci-cd-app
-nohup python3 app.py > app.log 2>&1 &
+source venv/bin/activate
+nohup python app.py > app.log 2>&1 &

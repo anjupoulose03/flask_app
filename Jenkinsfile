@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=${APP_NAME} \
+                        sh ''' /opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectName=${APP_NAME} \
                     -Dsonar.projectKey=${APP_NAME} '''
                     }
                 }
